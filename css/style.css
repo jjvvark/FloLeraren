@@ -1,0 +1,547 @@
+
+
+html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: #eeeeee;
+    font-size: 12px;
+}
+
+html {
+    overflow-y:scroll;
+}
+
+.top {
+    width: 100%;
+    height: 50px;
+    background-color: #006ab3;
+}
+
+.wrapper {
+   height: auto;
+   overflow: hidden;
+}
+
+.btn-home {
+    background-color: #006ab3;
+    width: 50px;
+    height: 50px;
+    padding: 9px;
+    font-size: 9px !important;
+    text-align: center;
+    border-radius: 0;
+    border: 0;
+    color: white;
+}
+
+.btn-home i {
+    font-size: 24px;
+}
+
+.menu {
+    width: 50px;
+    float: left;
+}
+
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+    font-size: 9px;
+    text-align: center;
+}
+
+.menu i {
+    font-size: 15px;
+}
+
+.menu li {
+    height: 50px;
+    padding-right: 5px;
+    background-color: #fff;
+    color: black;
+    border-bottom: 1px solid #c9c9c9;
+}
+
+.menu li:hover {
+    color: white;
+}
+
+.menu-button-nakijken {
+    border-left: 5px solid #93117e;
+    padding-top : 8px;
+}
+
+.menu-button-nakijken:hover {
+    background-color: #93117e;
+}
+
+.menu-button-nakijken.selected {
+    background-color: #93117e;
+    color: white;
+}
+
+.menu-button-studenten {
+    border-left: 5px solid #006ab3;
+    padding-top : 8px;
+}
+
+.menu-button-studenten:hover {
+    background-color: #006ab3;
+}
+
+.menu-button-studenten.selected {
+    background-color: #006ab3;
+    color: white;
+}
+
+.menu-button-statistiek {
+    border-left: 5px solid #ee7f01;
+    padding-top : 8px;
+}
+
+.menu-button-statistiek:hover {
+    background-color: #ee7f01;
+}
+
+.menu-button-statistiek.selected {
+    background-color: #ee7f01;
+    color: white;
+}
+
+.menu-button-berichten {
+    border-left: 5px solid #b13614;
+    padding-top : 8px;
+}
+
+.menu-button-berichten:hover {
+    background-color: #b13614;
+}
+
+.menu-button-berichten.selected {
+    background-color: #b13614;
+    color: white;
+}
+
+.menu-button-bestanden {
+    border-left: 5px solid #009036;
+    padding-top : 8px;
+}
+
+.menu-button-bestanden:hover {
+    background-color: #009036;
+}
+
+.menu-button-bestanden.selected {
+    background-color: #009036;
+    color: white;
+}
+
+.menu-button-info {
+    border-left: 5px solid #fbba00;
+    padding-top : 8px;
+}
+
+.menu-button-info:hover {
+    background-color: #fbba00;
+}
+
+.menu-button-info.selected {
+    background-color: #fbba00;
+    color: white;
+}
+
+.colNakijken {
+    border-top: 5px solid #93117e;
+    padding: 0;
+    -webkit-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.31);
+    -moz-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.31);
+    box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.31);
+}
+
+.studentenLijst {
+    list-style-type: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.studentenLijst li {
+    min-height: 48px;
+    border-bottom: 1px solid #aaaaaa;
+    padding: 15px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.studentenLijst .selected {
+    color: white;
+    background-color: #93117e;
+}
+
+.vragenLijst {
+    list-style-type: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.vragenLijst li {
+    min-height: 48px;
+    border-bottom: 1px solid #aaaaaa;
+    padding: 15px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.vragenLijst .selected {
+    color: white;
+    background-color: #93117e;
+}
+
+.colHeader {
+    height: 43px;
+    width: 100%;
+    padding: 4px 8px;
+    line-height: 30px;
+}
+
+.colHeader h3 {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+
+.vragen ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.vragen li {
+    display: inline;
+}
+
+.vraagRow {
+    cursor: pointer;
+}
+
+.vraagSelected {
+    color: white;
+    background-color: #93117e !important;
+}
+
+.vraagRow.odd {
+    background-color: white;
+}
+
+.btn {
+  font-size: 12px;
+}
+
+
+/*purple button*/
+.btn-purple {
+  color: #fff;
+  background-color: #93117e;
+  border: 0;
+  border-radius: 0;
+  text-align: left;
+}
+.btn-purple:focus,
+.btn-purple.focus {
+  color: #fff;
+  background-color: #93117e;
+}
+.btn-purple:hover {
+  color: #fff;
+  background-color: #93117e;
+}
+.btn-purple:active,
+.btn-purple.active,
+.open > .dropdown-toggle.btn-purple {
+  color: #fff;
+  background-color: #93117e;
+}
+.btn-purple:active:hover,
+.btn-purple.active:hover,
+.open > .dropdown-toggle.btn-purple:hover,
+.btn-purple:active:focus,
+.btn-purple.active:focus,
+.open > .dropdown-toggle.btn-purple:focus,
+.btn-purple:active.focus,
+.btn-purple.active.focus,
+.open > .dropdown-toggle.btn-purple.focus {
+  color: #fff;
+  background-color: #93117e;
+}
+.btn-purple:active,
+.btn-purple.active,
+.open > .dropdown-toggle.btn-purple {
+  background-image: none;
+}
+.btn-purple.disabled,
+.btn-purple[disabled],
+fieldset[disabled] .btn-purple,
+.btn-purple.disabled:hover,
+.btn-purple[disabled]:hover,
+fieldset[disabled] .btn-purple:hover,
+.btn-purple.disabled:focus,
+.btn-purple[disabled]:focus,
+fieldset[disabled] .btn-purple:focus,
+.btn-purple.disabled.focus,
+.btn-purple[disabled].focus,
+fieldset[disabled] .btn-purple.focus,
+.btn-purple.disabled:active,
+.btn-purple[disabled]:active,
+fieldset[disabled] .btn-purple:active,
+.btn-purple.disabled.active,
+.btn-purple[disabled].active,
+fieldset[disabled] .btn-purple.active {
+  background-color: #93117e;
+}
+.btn-purple .badge {
+  color: #fff;
+  background-color: #93117e;
+}
+
+
+
+/*purple group button*/
+.btn-purpleGroup {
+  color: #93117e;
+  background-color: #fff;
+  text-align: left;
+  border: 1px solid #93117e;
+  height: 30px;
+  border-radius: 0;
+}
+.btn-purpleGroup:focus,
+.btn-purpleGroup.focus {
+  color: #fff;
+  background-color: #93117e;
+}
+.btn-purpleGroup:hover {
+  color: #fff;
+  background-color: #93117e;
+}
+.btn-purpleGroup:active,
+.btn-purpleGroup.active,
+.open > .dropdown-toggle.btn-purpleGroup {
+  color: #fff;
+  background-color: #93117e;
+}
+.btn-purpleGroup:active:hover,
+.btn-purpleGroup.active:hover,
+.open > .dropdown-toggle.btn-purpleGroup:hover,
+.btn-purpleGroup:active:focus,
+.btn-purpleGroup.active:focus,
+.open > .dropdown-toggle.btn-purpleGroup:focus,
+.btn-purpleGroup:active.focus,
+.btn-purpleGroup.active.focus,
+.open > .dropdown-toggle.btn-purpleGroup.focus {
+  color: #fff;
+  background-color: #93117e;
+}
+.btn-purpleGroup:active,
+.btn-purpleGroup.active,
+.open > .dropdown-toggle.btn-purpleGroup {
+  background-image: none;
+}
+.btn-purpleGroup.disabled,
+.btn-purpleGroup[disabled],
+fieldset[disabled] .btn-purpleGroup {
+  background-color: #fff;
+}
+.btn-purpleGroup.disabled:hover,
+.btn-purpleGroup[disabled]:hover,
+fieldset[disabled] .btn-purpleGroup:hover,
+.btn-purpleGroup.disabled:focus,
+.btn-purpleGroup[disabled]:focus,
+fieldset[disabled] .btn-purpleGroup:focus,
+.btn-purpleGroup.disabled.focus,
+.btn-purpleGroup[disabled].focus,
+fieldset[disabled] .btn-purpleGroup.focus,
+.btn-purpleGroup.disabled:active,
+.btn-purpleGroup[disabled]:active,
+fieldset[disabled] .btn-purpleGroup:active,
+.btn-purpleGroup.disabled.active,
+.btn-purpleGroup[disabled].active,
+fieldset[disabled] .btn-purpleGroup.active {
+  background-color: #93117e;
+}
+.btn-purpleGroup .badge {
+  color: #fff;
+  background-color: #93117e;
+}
+
+/*blue group button*/
+.btn-blueGroup {
+  color: #006ab3;
+  background-color: #fff;
+  text-align: left;
+  border: 1px solid #006ab3;
+  height: 30px;
+  border-radius: 0;
+}
+.btn-blueGroup:focus,
+.btn-blueGroup.focus {
+  color: #fff;
+  background-color: #006ab3;
+}
+.btn-blueGroup:hover {
+  color: #fff;
+  background-color: #006ab3;
+}
+.btn-blueGroup:active,
+.btn-blueGroup.active,
+.open > .dropdown-toggle.btn-blueGroup {
+  color: #fff;
+  background-color: #006ab3;
+}
+.btn-blueGroup:active:hover,
+.btn-blueGroup.active:hover,
+.open > .dropdown-toggle.btn-blueGroup:hover,
+.btn-blueGroup:active:focus,
+.btn-blueGroup.active:focus,
+.open > .dropdown-toggle.btn-blueGroup:focus,
+.btn-blueGroup:active.focus,
+.btn-blueGroup.active.focus,
+.open > .dropdown-toggle.btn-blueGroup.focus {
+  color: #fff;
+  background-color: #006ab3;
+}
+.btn-blueGroup:active,
+.btn-blueGroup.active,
+.open > .dropdown-toggle.btn-blueGroup {
+  background-image: none;
+}
+.btn-blueGroup.disabled,
+.btn-blueGroup[disabled],
+fieldset[disabled] .btn-blueGroup {
+  background-color: #fff;
+}
+.btn-blueGroup.disabled:hover,
+.btn-blueGroup[disabled]:hover,
+fieldset[disabled] .btn-blueGroup:hover,
+.btn-blueGroup.disabled:focus,
+.btn-blueGroup[disabled]:focus,
+fieldset[disabled] .btn-blueGroup:focus,
+.btn-blueGroup.disabled.focus,
+.btn-blueGroup[disabled].focus,
+fieldset[disabled] .btn-blueGroup.focus,
+.btn-blueGroup.disabled:active,
+.btn-blueGroup[disabled]:active,
+fieldset[disabled] .btn-blueGroup:active,
+.btn-blueGroup.disabled.active,
+.btn-blueGroup[disabled].active,
+fieldset[disabled] .btn-blueGroup.active {
+  background-color: #006ab3;
+}
+.btn-blueGroup .badge {
+  color: #fff;
+  background-color: #006ab3;
+}
+
+.colStudenten {
+    border-top: 5px solid #006ab3;
+    padding: 0;
+    -webkit-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.31);
+    -moz-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.31);
+    box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.31);
+}
+
+
+.btn-purpleSm {
+  height: 25px;
+  font-size: 12px;
+  width: 50px;
+}
+
+.img-center {
+  margin:0 auto;
+}
+
+.studentenTable {
+  background-color: white;
+}
+
+.studentenTable img {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+}
+
+.studentenTable td {
+  border-left: 1px solid #eeeeee;
+  border-right: 1px solid #eeeeee;
+}
+
+.voortgangBlok {
+  height: 27px;
+  width: 27px;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #d2d2d2;
+  color: white;
+  float: left;
+  font-size: 10px;
+  line-height: 23px;
+  padding: 2px;
+  margin-right: 1px;
+  margin-bottom: 1px;
+}
+
+.voortgangBlok.success {
+  background-color: #006ab3;
+}
+
+.pogingenBlok {
+  float: left;
+  color: white;
+  width: 44px;
+  height: 33px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 10px;
+  margin-right: 16px;
+}
+
+.pogingenBlok .hfdst {
+  height: 17px;
+  background-color: #006ab3;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  border-bottom: 1px solid white;
+}
+
+.pogingenBlok .score {
+  background-color: #e30613;
+  height: 16px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.pogingenBlok .score.success {
+  background-color: #3aaa35;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.right {
+    float: none;
+    width: auto;
+    overflow: hidden;
+}​​

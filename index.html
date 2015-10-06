@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="nl" ng-app="floLeraren">
+<head>
+	<meta charset="utf-8">
+	<title>FLO Leraren</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+</head>
+<body ng-controller="bodyController" ng-init="refresh()">
+
+<!-- Top bar -->
+<div class="top">
+
+	<!-- Home Button -->
+	<button class="btn btn-default btn-home" ng-class="{selected: isPage(pages.home)}" ng-click="setPage(pages.home)">
+		<i class="fa fa-home"></i><br>
+		home
+	</button>
+	
+	<!-- Pakketten		 -->
+	<div class="btn-group" dropdown is-open="status.isopen">
+		<button type="button" class="btn btn-purple" style="min-width:150px;" dropdown-toggle ng-disabled="pakketten.length===0">
+			<span ng-bind="(currentPakket===null)?'Kies een pakket...':currentPakket.PackageDescription" style="text-align:left;"></span>
+			<span class="caret" style="text-align:right;"></span>
+		</button>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
+			<li role="menuitem" ng-repeat="pakket in pakketten track by $index"><a href="#" ng-bind="pakket.PackageDescription" ng-click="setPakket(pakket)"></a></li>
+		</ul>
+	</div>
+
+	<!-- Modules -->
+	<div class="btn-group" dropdown is-open="status.isopened">
+		<button type="button" class="btn btn-purple" style="min-width:150px;" dropdown-toggle ng-disabled="modules.length===0">
+			<span  ng-bind="(currentModule===null)?'Kies een module...':currentModule.CourseDescription"></span>
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="single-button" style="max-height: 200px; overflow-x: hidden;">
+			<li role="menuitem" ng-repeat="module in modules track by $index"><a href="#" ng-bind="module.CourseDescription" ng-click="setModule(module)"></a></li>
+		</ul>
+	</div>
+
+	<!-- Klassen -->
+	<div class="btn-group" dropdown is-open="status.isopenedklassen">
+		<button type="button" class="btn btn-purple" style="min-width:150px;" dropdown-toggle ng-disabled="klassen.length===0">
+			<span  ng-bind="(currentModule===null)?'Kies een klas...':currentKlas.Name"></span>
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="single-button" style="max-height: 200px; overflow-x: hidden;">
+			<li role="menuitem" ng-repeat="klas in klassen track by $index"><a href="#" ng-bind="klas.Name" ng-click="setKlas(klas)"></a></li>
+		</ul>
+	</div>
+
+	<!-- Test Button -->
+	<button ng-click="go()" class="btn btn-default">Go!</button>
+
+</div>
+<!-- end Top Bar -->
+
+<!-- Wrapper -->
+<div class="wrapper">
+
+	<!-- Menu -->
+	<div class="menu">
+		<ul>
+			<li class="menu-button-nakijken" ng-class="{selected: isPage(pages.nakijken)}" ng-click="setPage(pages.nakijken)">
+				<i class="fa fa-file-text-o"></i>
+				nakijken
+			</li>
+			<li class="menu-button-studenten" ng-class="{selected: isPage(pages.studenten)}" ng-click="setPage(pages.studenten)">
+				<i class="fa fa-users"></i>
+				studenten
+			</li>
+			<li class="menu-button-statistiek" ng-class="{selected: isPage(pages.statistiek)}" ng-click="setPage(pages.statistiek)">
+				<i class="fa fa-bar-chart"></i>
+				statistiek
+			</li>
+			<li class="menu-button-berichten" ng-class="{selected: isPage(pages.berichten)}" ng-click="setPage(pages.berichten)">
+				<i class="fa fa-comments"></i>
+				berichten
+			</li>
+			<li class="menu-button-bestanden" ng-class="{selected: isPage(pages.bestanden)}" ng-click="setPage(pages.bestanden)">
+				<i class="fa fa-download"></i>
+				bestanden
+			</li>
+			<li class="menu-button-info" ng-class="{selected: isPage(pages.info)}" ng-click="setPage(pages.info)">
+				<i class="fa fa-info"></i>
+				info
+			</li>
+		</ul>
+	</div>
+	<!-- end menu -->
+
+	<!-- Content -->
+	<div class="right container-fluid" style="min-height: 300px;">
+
+		<!-- Home -->
+		<div class="row page" ng-show="isPage(pages.home)" style="height: 500px;">
+			<div class="col-xs-12">
+				Home
+			</div>
+		</div>
+		<!-- end home -->
+
+
+		<!-- Nakijken -->
+		<div class="row page" ng-show="isPage(pages.nakijken)" style="height: 500px;">
+			<div class="col-xs-12">
+				<div class="row" style="margin-top: 15px;">
+					<div class="col-xs-2">
+
+						<!-- Hoofdstukken -->
+						<div class="btn-group" dropdown is-open="status.isopenedhfdst" ng-hide="(moduleType!=moduleTypes.hoofdstukken)" style="display: block; width: 100%;">
+							<button type="button" class="btn btn-purple" dropdown-toggle ng-disabled="isDisabled()||hoofdstukken.length===0" style="display: block; width: 100%;">
+								<span  ng-bind="(hoofdstukken.length === 0)?'Hoofdstuk':currentHoofdstuk.Description"></span>
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="single-button" style="z-index: 10000;">
+								<li role="menuitem" ng-repeat="h in hoofdstukken track by $index"><a href="#" ng-bind="h.Description" ng-click="setHoofdstuk(h)"></a></li>
+							</ul>
+						</div>
+
+						<!-- Opdrachten -->
+						<div class="btn-group" dropdown is-open="status.isopenedopdracht" ng-hide="(moduleType!=moduleTypes.opdrachten)">
+							<button type="button" class="btn btn-purple" dropdown-toggle ng-disabled="isDisabled()||opdrachten.length===0">
+								<span  ng-bind="(opdrachten.length === 0)?'Opdracht':currentOpdracht.Description"></span>
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="single-button" style="z-index: 10000;">
+								<li role="menuitem" ng-repeat="h in opdrachten track by $index"><a href="#" ng-bind="h.Description" ng-click="setOpdracht(h)"></a></li>
+							</ul>
+						</div>
+
+						<!-- Oefentoetsen -->
+						<div class="btn-group" dropdown is-open="status.isopenedoefentoets" ng-hide="(moduleType!=moduleTypes.oefentoetsen)">
+							<button type="button" class="btn btn-purple" dropdown-toggle ng-disabled="isDisabled()||oefentoetsen.length===0">
+								<span  ng-bind="(oefentoetsen.length === 0)?'Oefentoets':currentOefentoets.Description"></span>
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="single-button" style="max-height: 200px; overflow-x: hidden;">
+								<li role="menuitem" ng-repeat="o in oefentoetsen track by $index"><a href="#" ng-bind="o.Description" ng-click="setOefentoets(o)"></a></li>
+							</ul>
+						</div>
+
+					</div>
+
+					<!-- module types -->
+					<div class="col-xs-4">
+						<div class="btn-group" ng-show="toetsType===toetsTypes.module">
+							<button class="btn btn-purpleGroup" ng-model="moduleType" btn-radio="moduleTypes.hoofdstukken" ng-disabled="isDisabled()">Hoofdstukken</button>
+							<button class="btn btn-purpleGroup" ng-model="moduleType" btn-radio="moduleTypes.opdrachten" ng-disabled="isDisabled()">Opdrachten</button>
+							<button class="btn btn-purpleGroup" ng-model="moduleType" btn-radio="moduleTypes.oefentoetsen" ng-disabled="isDisabled()">Oefentoets</button>
+						</div>
+					</div>
+
+					<!-- pogingen -->
+					<div class="col-xs-2">
+						<div class="btn-group" dropdown is-open="status.isopenedattempts" ng-hide="">
+							<button type="button" class="btn btn-purple" dropdown-toggle ng-disabled="isDisabled()||pogingen.length===0">
+								<span  ng-bind="(pogingen.length === 0)?'Laatste poging':currentPoging.Description"></span>
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="single-button" style="max-height: 200px; overflow-x: hidden;">
+								<li role="menuitem" ng-repeat="o in pogingen track by $index"><a href="#" ng-bind="o.Description" ng-click="setPoging(o)"></a></li>
+							</ul>
+						</div>
+					</div>
+
+					<!-- toets type -->
+					<div class="col-xs-2">
+						<div class="btn-group">
+							<button class="btn btn-purpleGroup" ng-model="toetsType" btn-radio="toetsTypes.module" ng-disabled="isDisabled()">module</button>
+							<button class="btn btn-purpleGroup" ng-model="toetsType" btn-radio="toetsTypes.toets" ng-disabled="isDisabled()">toets</button>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- per vraag -->
+				<div class="row" style="margin-top: 15px;" ng-show="perVraag">
+
+					<!-- Vragen -->
+					<div class="col-xs-3">
+						<div class="colNakijken" style="max-height:400px;overflow-y:auto;">
+							<div class="colHeader">
+								<div class="btn-group">
+									<button class="btn btn-purpleGroup btn-purpleSm" ng-model="perVraag" btn-radio="false" ng-disabled="isDisabled()">Student</button>
+									<button class="btn btn-purpleGroup btn-purpleSm" ng-model="perVraag" btn-radio="true" ng-disabled="isDisabled()">Vraag</button>
+								</div>
+							</div>
+							<ul class="vragenLijst">
+								<li ng-repeat="vraag in pvvragen track by $index" ng-bind="vraag.InteractionID" ng-click="setPVVraag(vraag)" ng-class="{selected:isPVVraag(vraag)}"></li>
+							</ul>
+						</div>
+					</div>
+
+					<!-- Studenten/Antwoord -->
+					<div class="col-xs-5">
+						<div class="colNakijken vragen">
+							<div class="colHeader">
+								<table class="table">
+									<tr>
+										<td style="width:40%;border: 0;padding-left:0;">
+											Student
+										</td>
+										<td style="width:40%;border: 0;padding-left:0;">
+											Antwoord
+										</td>
+										<td style="width:20%;border: 0;padding-left:0;">
+											Datum
+										</td>
+									</tr>
+								</table>
+							</div>
+
+							<ul>
+								<li>
+									<table class="table" ng-show="(currentPVStudent!=null)&&(pvvragen.length===0)">
+										<tr class="odd">
+											<td style="width:100%;">Geen vragen aanwezig.</td>
+										</tr>
+									</table>
+								</li>
+							</ul>
+							<ul>
+								<li>
+									<table class="table">
+										<tr ng-repeat="student in pvstudenten track by $index" class="vraagRow" ng-class="{odd: (($index%2)===0), vraagSelected: isPVStudent(student)}" ng-click="setPVStudent(student);">
+											<td style="width:40%;" ng-bind="student.GebruikerNaam"></td>
+											<td style="width:40%;" ng-bind="student.StudentResponse"></td>
+											<td style="width:20%;" ng-bind="student.ItsDate | date:'dd-MM-yyyy HH:mm:ss'"></td>
+										</tr>
+									</table>
+								</li>
+							</ul>
+
+						</div>
+					</div>
+
+					<!-- Antwoord -->
+					<div class="col-xs-4">
+						<div class="colNakijken vragen">
+							<div class="colHeader">
+								Antwoord
+							</div>
+							<img class="img-responsive img-center" id="pvResultImage">
+						</div>
+					</div>
+
+				</div>
+				<!-- end per vraag -->
+
+				<!-- per student -->
+				<div class="row" style="margin-top: 15px;" ng-show="!perVraag">
+
+					<!-- Studenten -->
+					<div class="col-xs-2">
+						<div class="colNakijken" style="max-height:400px;overflow-y:auto;">
+							<div class="colHeader">
+								<div class="btn-group">
+									<button class="btn btn-purpleGroup btn-purpleSm" ng-model="perVraag" btn-radio="false" ng-disabled="isDisabled()">Student</button>
+									<button class="btn btn-purpleGroup btn-purpleSm" ng-model="perVraag" btn-radio="true" ng-disabled="isDisabled()">Vraag</button>
+								</div>
+							</div>
+							<ul class="studentenLijst">
+								<li ng-repeat="student in studenten track by $index" ng-bind="student.GebruikerNaam" ng-click="setStudent(student)" ng-class="{selected:isStudent(student)}"></li>
+							</ul>
+						</div>
+					</div>
+
+					<!-- Vragen -->
+					<div class="col-xs-6">
+						<div class="colNakijken vragen">
+							<div class="colHeader">
+								<table class="table">
+									<tr>
+										<td style="width:40%;border: 0;padding-left:0;">
+											Vragen
+										</td>
+										<td style="width:40%;border: 0;padding-left:0;">
+											Antwoorden
+										</td>
+										<td style="width:20%;border: 0;padding-left:0;">
+											Datum
+										</td>
+									</tr>
+								</table>
+							</div>
+							<ul ng-show="(currentStudent!=null)&&(vragen.length===0)">
+								<li>
+									<table class="table">
+										<tr class="odd">
+											<td style="width:100%;">Geen vragen aanwezig.</td>
+										</tr>
+									</table>
+								</li>
+							</ul>
+							<ul>
+								<li>
+									<table class="table">
+										<tr ng-repeat="v in vragen track by $index" ng-click="setVraag(v)" class="vraagRow" ng-class="{odd: (($index%2)===0), vraagSelected: isVraag(v)}">
+											<td style="width:40%;" ng-bind="v.InteractionID"></td>
+											<td style="width:40%;" ng-bind="v.StudentResponse"></td>
+											<td style="width:20%;" ng-bind="v.ItsDate | date:'dd-MM-yyyy HH:mm:ss'"></td>
+										</tr>
+									</table>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<!-- Antwoord -->
+					<div class="col-xs-4">
+						<div class="colNakijken text-center">
+							<div class="colHeader">
+								Antwoord
+							</div>
+							<img class="img-responsive img-center" id="resultImage">
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- End Nakijken -->
+
+		<!-- Studenten -->
+		<div class="row page" ng-show="isPage(pages.studenten)" style="height: 500px;">
+			<div class="col-xs-12">
+				
+				<div class="row" style="margin-top: 15px;">
+					<div class="col-xs-12">
+
+						<div class="colStudenten">
+
+							<div class="row">
+								<div class="col-xs-3">
+
+									<div class="colHeader">
+										VOORTGANG MODULE
+									</div>
+
+								</div>
+								<div class="col-xs-9">
+									
+									<div class="btn-group" ng-show="toetsType===toetsTypes.module">
+										<button class="btn btn-blueGroup" ng-model="moduleType" btn-radio="moduleTypes.hoofdstukken" ng-disabled="isDisabled()">Hoofdstukken</button>
+										<button class="btn btn-blueGroup" ng-model="moduleType" btn-radio="moduleTypes.opdrachten" ng-disabled="isDisabled()">Opdrachten</button>
+										<button class="btn btn-blueGroup" ng-model="moduleType" btn-radio="moduleTypes.oefentoetsen" ng-disabled="isDisabled()">Oefentoets</button>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-xs-12">
+
+									<table class="table studentenTable">
+										<tr ng-repeat="student in studLijst track by $index">
+											<td style="width: 25%;">
+												<img src="images/user.png">
+												<span ng-bind="student.GebruikerNaam"></span>
+												<span style="float: right;">
+													<i class="fa" ng-click="toggleUserLicense(student.Id, 'TeacherAllowsAccess')" title="{{student.TeacherAllowsAccess?'Toegang':'Geen Toegang'}}" ng-class="{'fa-unlock-alt': student.TeacherAllowsAccess, 'fa-lock': !student.TeacherAllowsAccess}"></i>
+													<i class="fa" ng-click="toggleUserLicense(student.Id, 'Complete')" title="{{student.Complete?'Compleet':'Niet compleet'}}" ng-class="{'fa-circle-o': student.Complete, 'fa-circle': !student.Complete}"></i>
+													<i class="fa" ng-click="toggleUserLicense(student.Id, 'Success')" title="{{student.Success?'Geslaagd':'Niet geslaagd'}}" ng-class="{'fa-check-circle-o': student.Success, 'fa-check-circle': !student.Success}"></i>
+												</span>
+											</td>
+											<td style="width: 45%;">
+												<div ng-repeat="resultaat in student.HoofdstukkenLaatstePoging" class="voortgangBlok" ng-bind="resultaat.Description" ng-class="{success: resultaat.Success===1}"></div>
+											</td>
+											<td style="width: 30%;">
+												<div ng-repeat="resultaat in student.HoofdstukkenMetResultaten" class="pogingenBlok">
+													<div class="hfdst" ng-bind="resultaat.Description"></div>
+													<div class="score" ng-bind="resultaat.ScorePerc" ng-class="{success: resultaat.Success === 1}"></div>
+												</div>
+											</td>
+										</tr>
+									</table>
+
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!-- End Studenten -->
+
+	</div>
+
+</div>
+
+
+
+<!-- Javascript -->
+<script src="js/angular.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/ui-bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/app.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/controller.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/factories.js" type="text/javascript" charset="utf-8"></script>
+
+</body>
+</html>
